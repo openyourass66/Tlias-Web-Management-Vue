@@ -254,32 +254,33 @@ const handleSelectionChange = (selection) => {
 }
 //批量删除员工
 const deleteByIds=async()=>{ 
-  if(selectIds.value.length>0){
-      ElMessageBox.confirm(
-      '确认删除员工？',
-      '提示',
-      {
-        confirmButtonText: '确认',
-        cancelButtonText: '取消',
-        type: 'warning',
-      }
-    ).then(async() => {//确认
-        const result = await deleteByIdsApi(selectIds.value)
-        if(result.code){
-          ElMessage.success("删除成功")
-          search()
-        }else{
-          ElMessage.error(result.message)
-        }
-      })
-    .catch(() => {//取消
-        ElMessage.info('取消删除')
-      })
-  }else{
+  if(selectIds.value.length===0){
     ElMessage.info('请选择要删除的部门')
+    return
   }
-  
-}
+  ElMessageBox.confirm(
+  '确认删除员工？',
+  '提示',
+  {
+    confirmButtonText: '确认',
+    cancelButtonText: '取消',
+    type: 'warning',
+  }
+  )
+    .then(async() => {//确认
+      const result = await deleteByIdsApi(selectIds.value)
+      if(result.code){
+        ElMessage.success("删除成功")
+        selectIds.value=[]
+        search()
+      }else{
+        ElMessage.error(result.message)
+      }
+    })
+    .catch(() => {//取消
+      ElMessage.info('取消删除')
+    })
+  }
 </script>
 
 <template>
