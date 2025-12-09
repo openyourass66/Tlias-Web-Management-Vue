@@ -3,18 +3,26 @@ import {onMounted, ref,watch} from 'vue'
 import {queryPageApi,addApi,queryByIdApi,updateApi,deleteByIdsApi} from '../../api/emp'
 import {ElMessage,ElMessageBox} from 'element-plus'
 import {queryAllApi as queryAllDeptApi} from '../../api/dept'
+const token=ref('')
+//获取token
+const getToken=()=>{
+  const loginUser=JSON.parse(localStorage.getItem('loginUser'))
+  if(loginUser  && loginUser.token){
+    token.value=loginUser.token
+  }
+}
 const searchEmp=ref({
   name:'',
   gender:'',
   date:[],
   begin:'',
   end:'' 
-
 })
 const deptList = ref([])
 onMounted( () =>{
   search()//查询员工
   queryDept()//查询部门
+  getToken()//获取token
 })
 const queryDept=async () => {
   const result = await queryAllDeptApi()
@@ -434,6 +442,7 @@ const deleteByIds=async()=>{
               <el-upload
                 class="avatar-uploader"
                 action="/api/upload"
+                :headers="{ 'token':toekn }"
                 :show-file-list="false"
                 :on-success="handleAvatarSuccess"
                 :before-upload="beforeAvatarUpload"
