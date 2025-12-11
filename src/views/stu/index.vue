@@ -1,5 +1,5 @@
 <script setup>
-import {onMounted, ref,watch}  from 'vue'
+import {onMounted, ref}  from 'vue'
 import {queryAllApi as queryAllClazzApi} from '@/api/clazz'
 import {queryPageApi,queryByIdApi,updateApi,addApi,deleteByIdsApi,handleViolationApi} from '@/api/stu'
 import { ElMessageBox, ElMessage } from 'element-plus'
